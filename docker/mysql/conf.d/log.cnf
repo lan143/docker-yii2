@@ -1,0 +1,3 @@
+[mysqld]
+general_log = on
+general_log_file = /var/log/container/mysql.query.log

@@ -1,0 +1,5 @@
+[mysqld]
+long_query_time=5
+log_queries_not_using_indexes=on
+slow_query_log=1
+slow_query_log_file=/var/log/container/mysql.slow_query.log

@@ -1,0 +1,49 @@
+version: '3'
+
+volumes:
+  data-db:
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - '${HTTP_PORT}:80'
+    volumes:
+      - ./:/app
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./docker/log:/var/log/container/
+    depends_on:
+      - php
+    networks:
+      - project
+
+  php:
+    build: ./docker/php
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./docker/log:/var/log/container
+    depends_on:
+      - db
+    networks:
+      - project
+
+  db:
+    image: percona:5.7
+    ports:
+      - '${MYSQL_PORT}:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./docker/mysql/conf.d:/etc/percona-server.conf.d
+      - ./docker/log:/var/log/container
+      - data-db:/var/lib/mysql
+    networks:
+      - project
+
+networks:
+  project:
+    driver: bridge

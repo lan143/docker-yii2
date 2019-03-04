@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -e
+
+CONFD_PATH=$(php --ini | grep 'Scan for additional' | sed -- 's/^.*:\s*\([^ ].*\)$/\1/')
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- php "$@"
+fi
+
+exec "$@"
