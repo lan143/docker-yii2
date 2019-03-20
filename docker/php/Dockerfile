@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev \
         libpng-dev \
         libxslt1-dev \
         zip unzip \
+        build-essential \
+        git-core \
         --no-install-recommends
 
 # Устанавливаем расширения intl, PDO MySQL, bcmath, xsl, zip, mysqli, soap
@@ -21,18 +23,6 @@ RUN pecl channel-update pecl.php.net \
     && docker-php-ext-install pcntl && docker-php-ext-enable pcntl \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
-
-# Устанавливаем vim и git
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    vim \
-    git-core
-
-# Удаляем ненужные пакеты и чистим образ
-RUN apt-get purge -y g++ \
-    && apt-get autoremove -y \
-    && rm -r /var/lib/apt/lists/* \
-    && rm -rf /tmp/*
 
 # удаляем папку с конфигами по умолчанию для php-fpm
 RUN rm -rf /usr/local/etc/php-fpm.d

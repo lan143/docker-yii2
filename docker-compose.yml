@@ -23,6 +23,13 @@ services:
     volumes:
       - ./:/app
       - ./docker/log:/var/log/container
+    environment:
+      XDEBUG_REMOTE_ENABLE: ${XDEBUG_REMOTE_ENABLE}
+      XDEBUG_REMOTE_AUTOSTART: ${XDEBUG_REMOTE_AUTOSTART}
+      XDEBUG_REMOTE_HOST: ${XDEBUG_REMOTE_HOST}
+      XDEBUG_REMOTE_PORT: ${XDEBUG_REMOTE_PORT}
+      XDEBUG_IDEKEY: ${XDEBUG_IDEKEY}
+      XDEBUG_REMOTE_CONNECT_BACK: ${XDEBUG_REMOTE_CONNECT_BACK}
     depends_on:
       - db
     networks:

@@ -3,6 +3,14 @@ set -e
 
 CONFD_PATH=$(php --ini | grep 'Scan for additional' | sed -- 's/^.*:\s*\([^ ].*\)$/\1/')
 
+echo "xdebug.remote_enable=$XDEBUG_REMOTE_ENABLE" > $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.remote_autostart=$XDEBUG_REMOTE_AUTOSTART" >>  $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.remote_port=$XDEBUG_REMOTE_PORT" >> $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.remote_host=$XDEBUG_REMOTE_HOST" >> $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.idekey=$XDEBUG_IDEKEY" >> $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.remote_log=/var/log/container/xdebug_remote.log" >> $CONFD_PATH/xdebug_remote.ini
+echo "xdebug.remote_connect_back=$XDEBUG_REMOTE_CONNECT_BACK" >> $CONFD_PATH/xdebug_remote.ini
+
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
 	set -- php "$@"
